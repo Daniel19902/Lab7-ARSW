@@ -39,29 +39,46 @@
     </style>
 </head>
 <body>
-    <h1 >Blueprints</h1>
-    <div>
-        <label>Nombre autor</label>
-        <input type="text" id = "nameAuthor" placeholder="JhonConnor">
-        <button name="getBlueprints" onclick="app.getBlueprints($('#nameAuthor').val())">
-            Get Blueprints
-        </button>
-    </div>
-    <h3 id="table-title" >Blueprints:</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>Blueprint Name</th>
-            <th>Number of points</th>
-            <th>Open Blueprint</th>
-        </tr>
-        </thead>
-        <tbody id="tbody-table">
+    <div class="container">
+        <div>
+        <div class="row">
+            <div class="col">
+                <h1 class="pb-2">Blueprints</h1>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic">Nombre autor</span>
+                    </div>
+                    <input type="text" class="form-control" id = "nameAuthor" placeholder="JhonConnor">
+                    <button type="button" class="btn btn-outline-info" onclick="app.getBlueprints($('#nameAuthor').val())">
+                            Get Blueprints
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 id="table-title" >Blueprints:</h3>
+                <table class="table">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Blueprint Name</th>
+                        <th scope="col">Number of points</th>
+                        <th scope="col">Open Blueprint</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-table">
 
-        </tbody>
-    </table>
-    <h5 id="user-points">Total user points:</h5>
-    <canvas id = "dibujar" width="500" height="500" style="border:1px solid #000000;"></canvas>
+                    </tbody>
+                </table>
+                <h5 id="user-points">Total user points:</h5>
+            </div>
+            <div class="col align-self-end">
+                <h5 id="Current-blueprint">Current blueprint:</h5>
+                <canvas id = "dibujar" width="500" height="500" style="border:1px solid #000000;"></canvas>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

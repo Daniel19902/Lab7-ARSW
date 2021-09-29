@@ -28,7 +28,7 @@ var app = ( function () {
                 html += "<tr>";
                 html += "<td>" +blueprint.name+ "</td>";
                 html += "<td>" +blueprint.points+ "</td>";
-                html += "<td> <button type='button' onclick='app.drawPoints(\""+blueprint.name+"\",\""+nameAuthor+"\");'>Open</button></td>"
+                html += "<td> <button type='button' class='btn btn-success' onclick='app.drawPoints(\""+blueprint.name+"\",\""+nameAuthor+"\");'>Open</button></td>"
                 html += "</tr>"
             });
             $("#table-title").html(nameAuthor+"'s blueprints");
@@ -39,17 +39,21 @@ var app = ( function () {
 
         getBlueprintsByAuthor: function (author){
             console.log(author);
-            api.getBlueprintsByAuthor(author, function (error, mockData){
+            api.getBlueprintsByAuthor(author, function (error, mockData) {
                 console.log(author);
-                listaNombres = mockData.map(function (blueprint){
-                     return {
+                listaNombres = mockData.map(function (blueprint) {
+                    return {
                         name: blueprint.name,
                         points: blueprint.points.length
                     };
                 });
-                totalPoints = listaNombres.reduce(function (anterior, actual){
-                    return anterior.points+actual.points;
-                });
+                if (listaNombres.length > 1) {
+                    totalPoints = listaNombres.reduce(function (anterior, actual) {
+                        return anterior.points + actual.points;
+                    });
+                }else {
+                    totalPoints = listaNombres[0].points;
+                }
                 app.crearTabla();
             });
         },
@@ -63,6 +67,7 @@ var app = ( function () {
                     canvas2d.lineTo(blueprint.points[i].x,blueprint.points[i].y);
                     canvas2d.stroke();
                 }
+                $("#Current-blueprint").html("Current blueprint: "+name);
             })
         }
     };
