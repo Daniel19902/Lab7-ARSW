@@ -1,9 +1,11 @@
 var app = ( function () {
 
+    //let api = apimock;
     let api = apiclient;
-    let nameAuthor;
+    let nameAuthor = "";
     let listaNombres = [];
     let points;
+    let totalPoints;
 
 
     let getBlueprints = function (author){
@@ -12,54 +14,57 @@ var app = ( function () {
         })
     };
 
-    let setNameAuthor = function (nameAuthor){
-        this.nameAuthor = nameAuthor;
-        console.log(this.nameAuthor);
-    }
-
     return {
 
-        setNameAuthor : function (nameAuthor){
-          setNameAuthor(nameAuthor);
+        getBlueprints : function (author){
+            nameAuthor = author;
+            console.log(nameAuthor);
+            this.getBlueprintsByAuthor(author);
         },
 
-        getBlueprints : function (author){
-            getBlueprints(author);
+        crearTabla: function (){
+            let html = "";
+            listaNombres.map(function (blueprint){
+                html += "<tr>";
+                html += "<td>" +blueprint.name+ "</td>";
+                html += "<td>" +blueprint.points+ "</td>";
+                html += "<td> <button type='button' onclick='app.drawPoints(\""+blueprint.name+"\",\""+nameAuthor+"\");'>Open</button></td>"
+                html += "</tr>"
+            });
+            $("#table-title").html(nameAuthor+"'s blueprints");
+            $("#tbody-table").html(html);
+            $("#user-points").html("Total user points: " + totalPoints);
+
         },
 
         getBlueprintsByAuthor: function (author){
+            console.log(author);
             api.getBlueprintsByAuthor(author, function (error, mockData){
+                console.log(author);
                 listaNombres = mockData.map(function (blueprint){
                      return {
                         name: blueprint.name,
                         points: blueprint.points.length
                     };
                 });
-            })
-            return listaNombres;
-        },
-
-        getBlueprintsByNameAndAuthor: function (name, author){
-            api.getBlueprintsByNameAndAuthor(name, author, function (error, blueprint){
-                points = blueprint.points
-                return points;
-            })
-            return points;
+                totalPoints = listaNombres.reduce(function (anterior, actual){
+                    return anterior.points+actual.points;
+                });
+                app.crearTabla();
+            });
         },
 
         drawPoints: function (name, author){
-            let canvas = $("#dibujar")[0];
-            let canvas2d = canvas.getContext("2d");
-            let points = this.getBlueprintsByNameAndAuthor(name,author);
-            //console.log(points.length);
-            for(let i = 1; i < points.length; i++){
-                canvas2d.moveTo(points[i-1].x,points[i-1].y);
-                canvas2d.lineTo(points[i].x,points[i].y);
-                canvas2d.stroke();
-            }
-
+            api.getBlueprintsByNameAndAuthor(name, author, function (error, blueprint){
+                let canvas = $("#dibujar")[0];
+                let canvas2d = canvas.getContext("2d");
+                for(let i = 1; i < blueprint.points.length; i++){
+                    canvas2d.moveTo(blueprint.points[i-1].x,blueprint.points[i-1].y);
+                    canvas2d.lineTo(blueprint.points[i].x,blueprint.points[i].y);
+                    canvas2d.stroke();
+                }
+            })
         }
-
     };
 })();
 

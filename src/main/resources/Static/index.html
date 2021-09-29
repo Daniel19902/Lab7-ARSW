@@ -37,61 +37,30 @@
         }
 
     </style>
-    <script>
-        $(document).ready(function (){
-            $(".getBlueprints").click(function (){
-                $("table tbody").find("td").remove();
-                $("table tfoot").find("td").remove();
-                let nameAuthor = $("#nameAuthor").val();
-                let markup = app.getBlueprintsByAuthor(nameAuthor);
-                console.log(markup);
-                let map = markup.map(function (blueprint){
-                    let r = "<tr><td>"+blueprint.name+ "</td><td>"+blueprint.points+"" +"</td>" +
-                        "<td> <button type='button' onclick='app.drawPoints(\"" +
-                        blueprint.name + "\",\"" + nameAuthor + "\")' </td><tr/>"
-                    $("table tbody").append(r);
-                });
-
-                let reduce;
-                if (markup.length>1) {
-                    reduce = markup.reduce(function (anterior, actual, indice, vector) {
-                        return anterior.points + actual.points;
-                    });
-                }
-                else {
-                    console.log(markup.length);
-                    reduce = markup[0].points;
-                }
-                let user = "<tr><td><label>points user:</label></td><td>"+reduce+"</td></tr>";
-                $("table tfoot").append(user);
-
-            });
-        });
-    </script>
-
 </head>
 <body>
     <h1 >Blueprints</h1>
     <div>
         <label>Nombre autor</label>
         <input type="text" id = "nameAuthor" placeholder="JhonConnor">
-        <button name="getBlueprints" class="getBlueprints">
+        <button name="getBlueprints" onclick="app.getBlueprints($('#nameAuthor').val())">
             Get Blueprints
         </button>
     </div>
+    <h3 id="table-title" >Blueprints:</h3>
     <table>
         <thead>
         <tr>
             <th>Blueprint Name</th>
             <th>Number of points</th>
+            <th>Open Blueprint</th>
         </tr>
         </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
+        <tbody id="tbody-table">
 
+        </tbody>
+    </table>
+    <h5 id="user-points">Total user points:</h5>
     <canvas id = "dibujar" width="500" height="500" style="border:1px solid #000000;"></canvas>
 
 </body>
