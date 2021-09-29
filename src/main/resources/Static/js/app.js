@@ -1,6 +1,6 @@
 var app = ( function () {
 
-    let api = apimock;
+    let api = apiclient;
     let nameAuthor;
     let listaNombres = [];
     let points;
@@ -51,6 +51,7 @@ var app = ( function () {
             let canvas = $("#dibujar")[0];
             let canvas2d = canvas.getContext("2d");
             let points = this.getBlueprintsByNameAndAuthor(name,author);
+            //console.log(points.length);
             for(let i = 1; i < points.length; i++){
                 canvas2d.moveTo(points[i-1].x,points[i-1].y);
                 canvas2d.lineTo(points[i].x,points[i].y);

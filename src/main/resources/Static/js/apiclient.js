@@ -4,6 +4,7 @@ var apiclient = (function (){
     return {
         getBlueprintsByAuthor: function(author, callback) {
             $.get("/blueprints/"+author, function (data){
+                console.log(data);
                 callback(null,data);
             }).fail(function (){
                 alert("error");
@@ -11,10 +12,11 @@ var apiclient = (function (){
         },
 
         getBlueprintsByNameAndAuthor: function(name, author, callback) {
-            let blueprint = mockdata[author].find(function(blueprint) {
-                return blueprint.name == name
+            $.get("/blueprints/"+author+"/"+name, function (data){
+                callback(null, data)
+            }).fail(function (){
+                alert("error");
             });
-            callback(null, blueprint)
         }
     }
 })();
