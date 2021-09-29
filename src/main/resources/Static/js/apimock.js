@@ -13,8 +13,8 @@ var apimock = (function () {
                     y: 20
                 },
                 {
-                    x: 15,
-                    y: 25
+                    x: 150,
+                    y: 250
                 },
                 {
                     x: 45,
@@ -61,7 +61,7 @@ var apimock = (function () {
         },
 
         getBlueprintsByNameAndAuthor: function(name, author, callback) {
-            blueprint = mockdata[author].find(function(blueprint) {
+            let blueprint = mockdata[author].find(function(blueprint) {
                 return blueprint.name == name
             });
             callback(null, blueprint)
@@ -69,3 +69,7 @@ var apimock = (function () {
     }
 
 })();
+
+
+
+
